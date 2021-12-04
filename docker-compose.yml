@@ -1,0 +1,41 @@
+# Translate this command into compose to run the application
+# docker run -dp 3001:3000 --name todonetmysql -w /app -v ${PWD}:/app --network todo-net -e MYSQL_HOST=mysqlnet -e MYSQL_USER=root -e MYSQL_PASSWORD=secret -e MYSQL_DB=todos node:12-alpine sh -c "yarn install && yarn run dev"
+
+# Translate this command into compose to run MySQL
+# docker run -d --network todo-net --network-alias mysqlnet -v todo-mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=todos mysql:5.7
+
+version: v2.0.0-rc.3
+services:
+  appcomp:
+    image: node:12-alpine
+    command: sh -c "yarn install && yarn run dev"
+    ports:
+      - 3001:3000
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      MYSQL_HOST: mysqlnet
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DB: todos
+  mysqlnet:
+    image: mysql:5.7
+    volumes:
+      - todo-mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: todos
+
+volumes:
+  todo-mysql-data:
+
+# Commands
+# docker-compose up -d
+# Output
+# Network app_default           Created
+# Volume "app_todo-mysql-data"  Created
+# Container app_mysqlnet_1      Started
+# Container app_appcomp_1       Started
+# To stop and remove containers (Volume and images are not deleted)
+# docker-compose down

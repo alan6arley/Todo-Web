@@ -1,0 +1,30 @@
+FROM node:12-alpine
+WORKDIR /app
+COPY package.json yarn.lock ./
+RUN yarn install --production
+COPY . .
+CMD ["node", "/app/src/index.js"]
+
+# ¿Whats the difference against Dockerfile?
+# IMPORTANT: Remember that images are divided into layers.
+# In Dockerfile Yarn dependencies have to be reinstalled every time we make a change because we "COPY . ." everything in the same layer
+# Dependencies are defined in the package.json, to decrease build times for container images we can cache those dependencies.
+# To to that we follow this steps:
+# 1. Copy package.json
+# 2. install the dependencies
+# 3. Copy everything else
+# Result: Yarn dependencies are recreated ONLY when there are changes in package.json
+
+# Steps explained
+# 1. Set base image
+# 2. Create the workdir "/app" in host
+# 3. Copy specified files from local dir to the set workdir in host
+# 4. install required libraries
+# 5. Copy all from local dir to the set workdir in host
+# 6. Exec command to run app
+
+# Host OS type: Linux
+
+# Commands
+# docker build -t todolist:1.00.0 -f Dockerfile.cache .
+# docker run -dp 3001:3000 --name todoweb todolist:1.00.0
