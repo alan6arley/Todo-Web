@@ -1,7 +1,13 @@
-# Project Name
-> Short text about what your product does.
+# To-do web app
+> To-do web application built in NodeJs with 3 ways of running the application using Docker.
 
-![](Result.png)
+- Basic (Build and run)
+- Using volumes
+- Multi container approach using networks (Using MySql and Netshoot)
+
+Explanation found on **Dockerfile and Dockerfile.cache**.
+
+![](/images/Result.png)
 
 # GitHub Best Practices
 

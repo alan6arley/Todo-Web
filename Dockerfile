@@ -4,8 +4,6 @@ COPY . .
 RUN yarn install --production
 CMD ["node", "/app/src/index.js"]
 
-# https://docs.microsoft.com/en-us/visualstudio/docker/tutorials/use-docker-compose
-
 # Steps explained
 # 1. Set base image
 # 2. Create the workdir "/app" in host
